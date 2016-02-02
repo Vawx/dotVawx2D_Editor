@@ -21,7 +21,7 @@ float FPSLimiter::End( float &DeltaTime )
 	float frameTicks = SDL_GetTicks( ) - m_StartTicks;
 	if( 1000.f / m_MaxFPS >= frameTicks )
 	{
-		SDL_Delay( Uint32( 1000.f / m_MaxFPS - frameTicks ) );
+		SDL_Delay( int( 1000.f / m_MaxFPS - frameTicks ) );
 	}
 	m_End = SDL_GetTicks( );
 	DeltaTime = ( m_End - m_StartTicks ) * 0.001f;

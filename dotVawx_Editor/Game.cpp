@@ -24,6 +24,7 @@ void Game::CreateWindowAndSurface( )
 	if ( SDL_Init( SDL_INIT_EVERYTHING ) < 0 )
 	{
 		printf( "SDL Failed to init%s\n", SDL_GetError( ) );
+		bClose = true;
 	}
 	else
 	{
@@ -42,17 +43,35 @@ void Game::CreateWindowAndSurface( )
 				if ( SDL_SetRenderDrawColor( m_Renderer, 0,0,0,0 ) != 0 )
 				{
 					printf( "SDL Failed to set render color%s\n", SDL_GetError( ) );
+					bClose = true;
 				}
 			}
 
 			m_Media = new MediaManager( m_Window, m_Renderer );
-			Run( );
 		}
 		else
 		{
 			printf( "SDL Failed to create window!\n" );
 			bClose = true;
 		}
+
+		float scale_width = (float)SCREEN_WIDTH / 128;
+		float scale_height = ( SCREEN_HEIGHT / 128 ) + 1;
+		float start_pos_x = 0;
+		float start_pos_y = 0;
+
+		for (int j = 0; j < scale_height; j++)
+		{
+			for (int i = 0; i < scale_width; i++)
+			{
+				m_Media->AddMedia("../content/img/grid.png", "grid", start_pos_x, start_pos_y, 1, 1);
+				start_pos_x += 128;
+			}
+			start_pos_x = 0;
+			start_pos_y += 128;
+		}
+
+		Run( );
 	}
 }
 
@@ -63,39 +82,6 @@ void Game::Run( )
 	{
 		m_Timing.Begin( );
 
-		if( m_Input.isKeyPressed( SDLK_1 ) )
-		{
-			if( !test_media )
-			{
-				test_media = m_Media->AddMedia( "../content/img/test_block.png", "test", 40, 120, 0.5f, 0.5f );
-			}
-		}
-		else if ( m_Input.isKeyPressed( SDLK_2 ) )
-		{
-			if ( test_media )
-			{
-				m_Media->RemoveMedia( test_media->Name( ) );
-				test_media = NULL;
-			}
-		}
-
-		if ( test_media )
-		{
-			if ( m_Input.isKeyPressed( SDL_BUTTON_LEFT ) )
-			{
-				test_media->SetHidden( false );
-				Vector2 mouseLoc = m_Input.LiteralMousePosition( );
-				mouseLoc.X -= test_media->Width( ) * 0.5f;
-				mouseLoc.Y -= test_media->Height( ) * 0.5f;
-				test_media->SetLocation( mouseLoc.X, mouseLoc.Y );
-			}
-			else
-			{
-				test_media->SetHidden( true );
-			}
-		}
-
-		m_Camera.Update( );
 		m_Media->Update( );
 		bClose = m_Input.Update( );
 

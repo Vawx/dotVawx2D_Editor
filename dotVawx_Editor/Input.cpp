@@ -47,8 +47,6 @@ bool Input::isKeyPressed( unsigned int ID )
 
 void Input::SetMousePosition( float X, float Y )
 {
-	m_MousePosition.x = X;
-	m_MousePosition.y = Y;
 	m_LiteralMousePosition.X = X;
 	m_LiteralMousePosition.Y = Y;
 }

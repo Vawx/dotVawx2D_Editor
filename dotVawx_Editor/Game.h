@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <SDL_image.h>
 #include "MediaManager.h"
-#include "Camera.h"
 #include "Input.h"
 #include "Timing.h"
 
@@ -34,9 +33,6 @@ private:
 
 	/** Game renderer */
 	SDL_Renderer *m_Renderer;
-
-	/** Game camera */
-	Camera m_Camera;
 
 	/** Timing */
 	FPSLimiter m_Timing;
