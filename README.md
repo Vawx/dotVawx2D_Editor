@@ -13,7 +13,9 @@ SDL: `https://www.libsdl.org/`
 Keys
 
 `t` Toggle grid background on and off
+
 `Left Mouse Button Release` Place temporary default grid texture at grid position of mouse.
+
 `Right Mouse Button Release` Delete texture at position of mouse.
 
 `no ability to export level file, yet`
