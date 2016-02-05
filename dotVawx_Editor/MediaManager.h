@@ -22,7 +22,7 @@ public:
 	~MediaManager( );
 
 	/** Add media to screen */
-	Media* AddMedia( char* FilePath, char* Name, int X, int Y, float Width, float Height, Uint8 SortLayer, bool Background );
+	Media* AddMedia( char* FilePath, char* Name, int X, int Y, float Width, float Height, Uint8 SortLayer, bool Background, bool Scaled );
 	
 	/** Remove media from screen */
 	void RemoveMedia( char* Name );

@@ -4,7 +4,17 @@
 
 Media::Media( ){}
 
-Media::Media( char* FilePath, char* Name, int X, int Y, float Width, float Height, Uint8 SortLayer, SDL_Window* GameWindow, SDL_Renderer* GameRenderer, bool Background )
+Media::Media( char* FilePath, 
+			char* Name, 
+			int X, 
+			int Y, 
+			float Width, 
+			float Height, 
+			Uint8 SortLayer, 
+			SDL_Window* GameWindow, 
+			SDL_Renderer* GameRenderer, 
+			bool Background, 
+			bool Scaled )
 {
 	m_Name = Name;
 	m_FilePath = FilePath;
@@ -16,7 +26,14 @@ Media::Media( char* FilePath, char* Name, int X, int Y, float Width, float Heigh
 		printf("Failed to initialize PNG Image%s\n", IMG_GetError( ) );
 	}
 
-	LoadMedia( m_FilePath, X, Y, Width, Height, GameWindow, GameRenderer );
+	if (Scaled)
+	{
+		LoadMediaScaled(m_FilePath, X, Y, Width, Height, GameWindow, GameRenderer);
+	}
+	else
+	{
+		LoadMediaPixel(m_FilePath, X, Y, Width, Height, GameWindow, GameRenderer);
+	}
 }
 
 Media::~Media( )
@@ -26,7 +43,7 @@ Media::~Media( )
 	m_FilePath = NULL;
 }
 
-bool Media::LoadMedia( char* FilePath, int X, int Y, float Width, float Height, SDL_Window* GameWindow, SDL_Renderer* GameRenderer )
+bool Media::LoadMediaScaled( char* FilePath, int X, int Y, float Width, float Height, SDL_Window* GameWindow, SDL_Renderer* GameRenderer )
 {
 	SDL_Surface* mediaSurface = IMG_Load( FilePath );
 	if( mediaSurface )
@@ -37,6 +54,33 @@ bool Media::LoadMedia( char* FilePath, int X, int Y, float Width, float Height, 
 		{
 			m_Width = mediaSurface->w * Width;
 			m_Height = mediaSurface->h * Height; 
+			m_Y = Y;
+			m_X = X;
+
+			SDL_FreeSurface( mediaSurface );
+			return true;
+		}
+		else
+		{
+			printf( "Error loading texture %s\n", SDL_GetError( ) );
+		}
+	}
+
+	printf( "Unable to load Media %s!\n SDL Error: %s\n", FilePath, SDL_GetError( ) );
+	return false;
+}
+
+bool Media::LoadMediaPixel( char* FilePath, int X, int Y, float Width, float Height, SDL_Window* GameWindow, SDL_Renderer* GameRenderer )
+{
+	SDL_Surface* mediaSurface = IMG_Load( FilePath );
+	if( mediaSurface )
+	{
+		SDL_SetColorKey( mediaSurface, SDL_TRUE, SDL_MapRGB( mediaSurface->format, 0, 255, 255 ) );
+		m_MediaTexture = SDL_CreateTextureFromSurface( GameRenderer, mediaSurface );
+		if ( m_MediaTexture )
+		{
+			m_Width = Width;
+			m_Height = Height; 
 			m_Y = Y;
 			m_X = X;
 

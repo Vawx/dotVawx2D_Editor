@@ -24,7 +24,13 @@ void MediaManager::ToggleBackground( )
 
 void MediaManager::Update( )
 {
-	SDL_RenderClear( m_GameRenderer );
+	SDL_Rect gameViewport;
+	gameViewport.x = 0;
+	gameViewport.y = 0;
+	gameViewport.w = 1280;
+	gameViewport.h = 720;
+	SDL_RenderSetViewport( m_GameRenderer, &gameViewport );
+
 	std::vector<Media*>::iterator i;
 	for ( i = m_MediaList.begin( ); i != m_MediaList.end( ); ++i )
 	{
@@ -35,14 +41,13 @@ void MediaManager::Update( )
 
 		(*i)->Render(m_GameRenderer);
 	}
-	SDL_RenderPresent( m_GameRenderer );
 }
 
-Media* MediaManager::AddMedia( char* FilePath, char* Name, int X, int Y, float Width, float Height, Uint8 SortLayer, bool Background )
+Media* MediaManager::AddMedia( char* FilePath, char* Name, int X, int Y, float Width, float Height, Uint8 SortLayer, bool Background, bool Scaled )
 {
 	if (X >= 0 && Y >= 0)
 	{
-		Media* newMedia = new Media(FilePath, Name, X, Y, Width, Height, SortLayer, m_GameWindow, m_GameRenderer, Background);
+		Media* newMedia = new Media(FilePath, Name, X, Y, Width, Height, SortLayer, m_GameWindow, m_GameRenderer, Background, Scaled);
 		if (newMedia)
 		{
 			m_MediaList.push_back(newMedia);

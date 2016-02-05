@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "Timing.h"
 #include "Grid.h"
+#include "Menu.h"
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
@@ -37,6 +38,9 @@ private:
 
 	/** Grid */
 	Grid *m_Grid;
+
+	/** Menu */
+	Menu *m_Menu;
 
 	/** Timing */
 	FPSLimiter m_Timing;

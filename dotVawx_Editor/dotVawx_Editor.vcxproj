@@ -135,6 +135,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Media.cpp" />
     <ClCompile Include="MediaManager.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Timing.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +144,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Media.h" />
     <ClInclude Include="MediaManager.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Timing.h" />
     <ClInclude Include="VawxTools.h" />
   </ItemGroup>

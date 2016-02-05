@@ -24,7 +24,7 @@ void Grid::SetupGrid( MediaManager *Manager )
 	{
 		for (int i = 0; i < scale_width; i++)
 		{
-			Manager->AddMedia("../content/img/grid.png", "grid", start_pos_x, start_pos_y, 0.5f, 0.5f, 0, true);
+			Manager->AddMedia("../content/img/grid.png", "grid", start_pos_x, start_pos_y, 0.5f, 0.5f, 0, true, true);
 
 			Vector2 gridVec;
 			gridVec.X = start_pos_x;

@@ -17,6 +17,7 @@ Game::~Game( )
 
 	delete m_Media;
 	delete m_Grid;
+	delete m_Menu;
 }
 
 // Create game window and game window surface
@@ -32,7 +33,7 @@ void Game::CreateWindowAndSurface( )
 		m_Window =  SDL_CreateWindow( "dotVawx Editor", 
 					SDL_WINDOWPOS_UNDEFINED, 
 					SDL_WINDOWPOS_UNDEFINED, 
-					SCREEN_WIDTH, 
+					SCREEN_WIDTH + 256, 
 					SCREEN_HEIGHT, 
 					SDL_WINDOW_SHOWN );
 
@@ -46,14 +47,19 @@ void Game::CreateWindowAndSurface( )
 					printf( "SDL Failed to set render color%s\n", SDL_GetError( ) );
 					bClose = true;
 				}
-			}
+				else
+				{
+					m_Menu = new Menu( 256, SCREEN_HEIGHT, 0, 0, "../content/img/gray.png", m_Window, m_Renderer);
+					m_Menu->AddMenu( "../content/img/menu_border.png", "border", 0, 0, 256, SCREEN_HEIGHT, 1, m_Window );
+					m_Menu->AddMenu( "../content/img/save_button.png", "save", 12, 18, 64, 32, 2, m_Window );
+					m_Media = new MediaManager( m_Window, m_Renderer );
+					m_Grid = new Grid( 64.f, SCREEN_WIDTH, SCREEN_HEIGHT, false );
 
-			m_Media = new MediaManager( m_Window, m_Renderer );
-			m_Grid = new Grid( 64.f, SCREEN_WIDTH, SCREEN_HEIGHT, false );
-
-			if ( m_Media && m_Grid )
-			{
-				m_Grid->SetupGrid( m_Media );
+					if ( m_Media && m_Grid )
+					{
+						m_Grid->SetupGrid( m_Media );
+					}
+				}
 			}
 		}
 		else
@@ -78,7 +84,7 @@ void Game::Run( )
 
 		if ( m_Input.isKeyReleased( SDL_BUTTON_LEFT ) )
 		{			
-			m_Media->AddMedia( "../content/img/test_block.png", "grid_block", gridElementPos.X, gridElementPos.Y, 0.5f, 0.5f, 1, false );
+			m_Media->AddMedia( "../content/img/test_block.png", "grid_block", gridElementPos.X, gridElementPos.Y, 0.5f, 0.5f, 1, false, true );
 		}
 		if( m_Input.isKeyReleased( SDL_BUTTON_RIGHT ) )
 		{
@@ -90,7 +96,10 @@ void Game::Run( )
 			m_Media->ToggleBackground( );
 		}
 
+		SDL_RenderClear( m_Renderer );
 		m_Media->Update( );
+		m_Menu->Update( );
+		SDL_RenderPresent( m_Renderer );
 
 		bClose = m_Input.Update( );
 		m_FPS = m_Timing.End( m_DeltaTime );

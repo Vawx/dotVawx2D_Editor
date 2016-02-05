@@ -5,12 +5,24 @@ class Media
 {
 public:
 	Media( );
-	Media( char* FilePath, char* Name, int X, int Y, float Width, float Height, Uint8 SortLayer, SDL_Window* GameWindow, SDL_Renderer* GameRenderer, bool Background );
+	Media( char* FilePath, 
+		   char* Name, 
+		   int X, 
+		   int Y, 
+		   float Width, 
+		   float Height,
+		   Uint8 SortLayer,
+		   SDL_Window* GameWindow, 
+		   SDL_Renderer* GameRenderer, 
+		   bool Background, 
+		   bool Scaled );
 	~Media( );
 
-	/** Loads Media as BMP 
-	 * @param: FilePath - Path to image file. */
-	bool LoadMedia( char* FilePath, int X, int Y, float Width, float Height, SDL_Window* GameWindow, SDL_Renderer* GameRenderer );
+	/** Loads Media as PNG */
+	bool LoadMediaScaled( char* FilePath, int X, int Y, float Width, float Height, SDL_Window* GameWindow, SDL_Renderer* GameRenderer );
+
+	/** Load media as PNG */
+	bool LoadMediaPixel( char* FilePath, int X, int Y, float Width, float Height, SDL_Window* GameWindow, SDL_Renderer* GameRenderer );
 
 	/** Renders the texture to the window */
 	void Render( SDL_Renderer* GameRenderer );
