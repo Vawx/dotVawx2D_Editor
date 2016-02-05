@@ -51,7 +51,7 @@ void Game::CreateWindowAndSurface( )
 				{
 					m_Menu = new Menu( 256, SCREEN_HEIGHT, 0, 0, "../content/img/gray.png", m_Window, m_Renderer);
 					m_Menu->AddMenu( "../content/img/menu_border.png", "border", 0, 0, 256, SCREEN_HEIGHT, 1, m_Window );
-					m_Menu->AddMenu( "../content/img/save_button.png", "save", 12, 18, 64, 32, 2, m_Window );
+					m_Menu->AddMenu( "../content/img/save_button.png", "save", 12, 18, 100, 30, 2, m_Window );
 					m_Media = new MediaManager( m_Window, m_Renderer );
 					m_Grid = new Grid( 64.f, SCREEN_WIDTH, SCREEN_HEIGHT, false );
 
