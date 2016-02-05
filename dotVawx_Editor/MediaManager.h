@@ -1,8 +1,17 @@
 #pragma once
 #include "Media.h"
+#include <algorithm>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <vector>
+
+struct SortLayerCompare {
+	bool operator()( Media *m1, Media *m2 )
+	{
+		return m1->SortLayer( ) < m2->SortLayer( );
+	}
+};
+
 
 class MediaManager
 {
@@ -12,13 +21,16 @@ public:
 	~MediaManager( );
 
 	/** Add media to screen */
-	Media* AddMedia( char* FilePath, char* Name, int X, int Y, float Width, float Height );
+	Media* AddMedia( char* FilePath, char* Name, int X, int Y, float Width, float Height, Uint8 SortLayer, bool Background );
 	
 	/** Remove media from screen */
 	void RemoveMedia( char* Name );
 
 	/** Per cycle */
-	void Update( );
+	void Update( bool Background );
+
+	/** List of background game media */
+	std::vector<Media*> m_BackgroundMediaList;
 
 private:
 

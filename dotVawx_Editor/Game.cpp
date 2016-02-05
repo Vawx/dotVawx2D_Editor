@@ -16,6 +16,7 @@ Game::~Game( )
 	SDL_Quit( );
 
 	delete m_Media;
+	delete m_Grid;
 }
 
 // Create game window and game window surface
@@ -48,29 +49,18 @@ void Game::CreateWindowAndSurface( )
 			}
 
 			m_Media = new MediaManager( m_Window, m_Renderer );
+			m_Grid = new Grid( 64.f, SCREEN_WIDTH, SCREEN_HEIGHT, false );
+
+			if ( m_Media && m_Grid )
+			{
+				m_Grid->SetupGrid( m_Media );
+			}
 		}
 		else
 		{
 			printf( "SDL Failed to create window!\n" );
 			bClose = true;
 		}
-
-		float scale_width = (float)SCREEN_WIDTH / 128;
-		float scale_height = ( SCREEN_HEIGHT / 128 ) + 1;
-		float start_pos_x = 0;
-		float start_pos_y = 0;
-
-		for (int j = 0; j < scale_height; j++)
-		{
-			for (int i = 0; i < scale_width; i++)
-			{
-				m_Media->AddMedia("../content/img/grid.png", "grid", start_pos_x, start_pos_y, 1, 1);
-				start_pos_x += 128;
-			}
-			start_pos_x = 0;
-			start_pos_y += 128;
-		}
-
 		Run( );
 	}
 }
@@ -82,9 +72,9 @@ void Game::Run( )
 	{
 		m_Timing.Begin( );
 
-		m_Media->Update( );
-		bClose = m_Input.Update( );
+		m_Media->Update( m_Input.isKeyPressed( SDLK_t ) );
 
+		bClose = m_Input.Update( );
 		m_FPS = m_Timing.End( m_DeltaTime );
 
 		static int frameCounter = 0;

@@ -4,10 +4,12 @@
 
 Media::Media( ){}
 
-Media::Media( char* FilePath, char* Name, int X, int Y, float Width, float Height, SDL_Window* GameWindow, SDL_Renderer* GameRenderer )
+Media::Media( char* FilePath, char* Name, int X, int Y, float Width, float Height, Uint8 SortLayer, SDL_Window* GameWindow, SDL_Renderer* GameRenderer, bool Background )
 {
 	m_Name = Name;
 	m_FilePath = FilePath;
+	m_SortLayer = SortLayer;
+	bBackground = Background;
 
 	if( !IMG_Init( IMG_INIT_PNG ) )
 	{
@@ -41,6 +43,10 @@ bool Media::LoadMedia( char* FilePath, int X, int Y, float Width, float Height, 
 			SDL_FreeSurface( mediaSurface );
 			return true;
 		}
+		else
+		{
+			printf( "Error loading texture %s\n", SDL_GetError( ) );
+		}
 	}
 
 	printf( "Unable to load Media %s!\n SDL Error: %s\n", FilePath, SDL_GetError( ) );
@@ -67,4 +73,3 @@ void Media::Render( SDL_Renderer* GameRenderer )
 	SDL_Rect quad = { m_X, m_Y, m_Width, m_Height };
 	SDL_RenderCopy( GameRenderer, m_MediaTexture, NULL, &quad );
 }
-

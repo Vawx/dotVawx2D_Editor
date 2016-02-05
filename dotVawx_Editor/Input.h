@@ -1,12 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include <unordered_map>
-
-struct Vector2
-{
-	float X;
-	float Y;
-};
+#include "VawxTools.h"
 
 class Input
 {
