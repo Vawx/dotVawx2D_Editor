@@ -15,6 +15,8 @@ public:
 	/** Is key down */
 	bool isKeyPressed( unsigned int ID );
 
+	/** Is key released */
+	bool isKeyReleased( unsigned int ID );
 
 	/** Get literal mouse position */
 	Vector2 LiteralMousePosition( ) { return m_LiteralMousePosition; }
@@ -25,6 +27,9 @@ private:
 
 	/** Keys being held*/
 	std::unordered_map<unsigned int, bool> m_Keys;
+
+	/** Keys released */
+	std::unordered_map<unsigned int, bool> m_ReleasedKeys;
 
 	/** Literal mouse position */
 	Vector2 m_LiteralMousePosition;

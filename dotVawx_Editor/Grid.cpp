@@ -6,17 +6,11 @@ Grid::Grid( float Scale, float ScreenWidth, float ScreenHeight, bool DrawGrid )
 	m_GridScale = Scale;
 	m_Width = ScreenWidth;
 	m_Height = ScreenHeight;
-	bDrawGrid = DrawGrid;
 }
 
 Grid::~Grid( ) 
 {
 	
-}
-
-void Grid::ToggleGrid( bool bOn ) 
-{
-	bDrawGrid = bOn;
 }
 
 void Grid::SetupGrid( MediaManager *Manager )
@@ -31,14 +25,30 @@ void Grid::SetupGrid( MediaManager *Manager )
 		for (int i = 0; i < scale_width; i++)
 		{
 			Manager->AddMedia("../content/img/grid.png", "grid", start_pos_x, start_pos_y, 0.5f, 0.5f, 0, true);
-			start_pos_x += m_GridScale;
 
 			Vector2 gridVec;
 			gridVec.X = start_pos_x;
 			gridVec.Y = start_pos_y;
 			m_Grid.push_back( gridVec );
+
+			start_pos_x += m_GridScale;
 		}
 		start_pos_x = 0;
 		start_pos_y += m_GridScale;
 	}
+}
+
+Vector2 Grid::GetGridElement( Vector2 ClickPosition )
+{
+	for ( int i = 0; i < m_Grid.size( ); ++i )
+	{
+		if ( ClickPosition.Y > m_Grid[ i ].Y && 
+			 ClickPosition.Y < m_Grid[ i ].Y + m_GridScale &&
+			 ClickPosition.X > m_Grid[ i ].X &&
+			 ClickPosition.X < m_Grid[ i ].X + m_GridScale )
+		{
+			return m_Grid[ i ];
+		}
+	}
+	return Vector2( -1, -1 );
 }

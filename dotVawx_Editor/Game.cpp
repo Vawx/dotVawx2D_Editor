@@ -61,6 +61,7 @@ void Game::CreateWindowAndSurface( )
 			printf( "SDL Failed to create window!\n" );
 			bClose = true;
 		}
+
 		Run( );
 	}
 }
@@ -72,7 +73,24 @@ void Game::Run( )
 	{
 		m_Timing.Begin( );
 
-		m_Media->Update( m_Input.isKeyPressed( SDLK_t ) );
+		Vector2 mouseLoc = m_Input.LiteralMousePosition( );
+		Vector2 gridElementPos = m_Grid->GetGridElement( mouseLoc );
+
+		if ( m_Input.isKeyReleased( SDL_BUTTON_LEFT ) )
+		{			
+			m_Media->AddMedia( "../content/img/test_block.png", "grid_block", gridElementPos.X, gridElementPos.Y, 0.5f, 0.5f, 1, false );
+		}
+		if( m_Input.isKeyReleased( SDL_BUTTON_RIGHT ) )
+		{
+			m_Media->RemoveMedia( gridElementPos );
+		}
+
+		if ( m_Input.isKeyReleased( SDLK_t ) )
+		{
+			m_Media->ToggleBackground( );
+		}
+
+		m_Media->Update( );
 
 		bClose = m_Input.Update( );
 		m_FPS = m_Timing.End( m_DeltaTime );

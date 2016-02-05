@@ -12,19 +12,16 @@ public:
 	Grid( float Scale, float ScreenWidth, float ScreenHeight, bool DrawGrid );
 	~Grid( );
 
-	/** Get if draw grid */
-	bool DrawGrid( ) { return bDrawGrid; }
-
-	/** Change grid showing */
-	void ToggleGrid( bool bOn );
-
-	/** Setupg grid */
+	/** Setup grid */
 	void SetupGrid( MediaManager *Manager );
 
-private:
+	/** Get grid element position from click position */
+	Vector2 GetGridElement( Vector2 ClickPosition );
 
-	/** to draw grid */
-	bool bDrawGrid;
+	/** Current scale of grid */
+	float Scale( ) { return m_GridScale; }
+
+private:
 
 	/** Scale of grid */
 	float m_GridScale;

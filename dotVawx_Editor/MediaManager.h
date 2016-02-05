@@ -1,5 +1,6 @@
 #pragma once
 #include "Media.h"
+#include "VawxTools.h"
 #include <algorithm>
 #include <SDL.h>
 #include <SDL_image.h>
@@ -26,13 +27,22 @@ public:
 	/** Remove media from screen */
 	void RemoveMedia( char* Name );
 
+	/** Remove Media from screen by position */
+	void RemoveMedia( Vector2 Position );
+
 	/** Per cycle */
-	void Update( bool Background );
+	void Update( );
+
+	/** Toggle background */
+	void ToggleBackground( );
 
 	/** List of background game media */
 	std::vector<Media*> m_BackgroundMediaList;
 
 private:
+
+	/** Showing background */
+	bool bToggleBackground;
 
 	/** Game window */
 	SDL_Window* m_GameWindow;
