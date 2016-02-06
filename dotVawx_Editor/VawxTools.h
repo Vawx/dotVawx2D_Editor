@@ -10,4 +10,9 @@ struct Vector2
 		X = x;
 		Y = y;
 	}
+
+	bool operator==( const Vector2 &a ) const
+	{
+		return( X == a.X && Y == a.Y );
+	}
 };

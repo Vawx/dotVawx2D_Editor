@@ -47,6 +47,19 @@ Media* MediaManager::AddMedia( char* FilePath, char* Name, int X, int Y, float W
 {
 	if (X >= 0 && Y >= 0)
 	{
+		for ( int i = 0; i < m_MediaList.size( ); i ++ )
+		{
+			if( m_MediaList[ i ]->FilePath( ) == FilePath )
+			{
+				Vector2 newDrawLoc;
+				newDrawLoc.X = X;
+				newDrawLoc.Y = Y;
+				m_MediaList[ i ]->AddDrawPosition( newDrawLoc );
+				std::sort(m_MediaList.begin(), m_MediaList.end(), SortLayerCompare());
+				return m_MediaList[ i ];
+			}
+		}
+
 		Media* newMedia = new Media(FilePath, Name, X, Y, Width, Height, SortLayer, m_GameWindow, m_GameRenderer, Background, Scaled);
 		if (newMedia)
 		{
@@ -78,19 +91,14 @@ void MediaManager::RemoveMedia( char* Name )
 
 void MediaManager::RemoveMedia( Vector2 Position )
 {
-	std::vector<Media*>::iterator i = m_MediaList.begin( );
-	while( i != m_MediaList.end( ) )
+	for ( int i = 0; i < m_MediaList.size( ); i++ )
 	{
-		if ( (*i)->X( ) == Position.X && (*i)->Y( ) == Position.Y && !(*i)->Background( ) )
+		for( int j = 0; j < m_MediaList[ i ]->DrawPositions( ).size( ); j++ )
 		{
-			Media* to_delete = (*i);
-			delete (*i);
-
-			i = m_MediaList.erase( i );
-		}
-		else
-		{
-			++i;
+			if( m_MediaList[ i ]->DrawPositions( )[ j ].X == Position.X && m_MediaList[ i ]->DrawPositions( )[ j ].Y == Position.Y )
+			{
+				m_MediaList[ i ]->RemoveDrawPosition( Position );
+			}
 		}
 	}
 }

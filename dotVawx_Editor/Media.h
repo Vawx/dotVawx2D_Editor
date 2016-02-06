@@ -1,5 +1,7 @@
 #pragma once
 #include <SDL.h>
+#include <vector>
+#include "VawxTools.h"
 
 class Media
 {
@@ -27,14 +29,17 @@ public:
 	/** Renders the texture to the window */
 	void Render( SDL_Renderer* GameRenderer );
 
+	/** Add draw position */
+	void AddDrawPosition( Vector2 DrawTo );
+
+	/** Remove draw position */
+	bool RemoveDrawPosition( Vector2 RemoveFrom );
+
 	/** Get Media Name */
 	char* Name( ) { return m_Name; }
 
 	/** Get media texture */
 	SDL_Texture* Texture( ) { return m_MediaTexture; }
-
-	/** Set screen position */
-	void SetLocation( int X, int Y );
 
 	/** Set hidden */
 	void SetHidden( bool Hidden );
@@ -45,17 +50,17 @@ public:
 	/** Get height */
 	float Height( ) { return m_Height; }
 
-	/** Get X */
-	int X( ) { return m_X; }
-
-	/** Get Y */
-	int Y( ) { return m_Y; }
-
 	/** Get sort layer */
 	Uint8 SortLayer( ) { return m_SortLayer; }
 
 	/** Is background */
 	bool Background( ) { return bBackground; }
+
+	/** Get file path */
+	char* FilePath( ) { return m_FilePath; }
+
+	/** Get draw positions */
+	std::vector<Vector2> DrawPositions( ) { return m_DrawPositions; }
 
 private:
 
@@ -67,12 +72,6 @@ private:
 
 	/** Height */
 	float m_Height;
-
-	/** Screen Loc x */
-	int m_X;
-
-	/** Screen Loc y */
-	int m_Y;
 
 	/** Stored file path for this media */
 	char* m_FilePath;
@@ -88,4 +87,7 @@ private:
 	
 	/** If part of background */
 	bool bBackground;
+
+	/** Vector locations to draw this media to */
+	std::vector<Vector2> m_DrawPositions;
 };

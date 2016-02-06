@@ -54,8 +54,11 @@ bool Media::LoadMediaScaled( char* FilePath, int X, int Y, float Width, float He
 		{
 			m_Width = mediaSurface->w * Width;
 			m_Height = mediaSurface->h * Height; 
-			m_Y = Y;
-			m_X = X;
+			
+			Vector2 firstDrawLoc;
+			firstDrawLoc.X = X;
+			firstDrawLoc.Y = Y;
+			m_DrawPositions.push_back( firstDrawLoc );
 
 			SDL_FreeSurface( mediaSurface );
 			return true;
@@ -81,8 +84,11 @@ bool Media::LoadMediaPixel( char* FilePath, int X, int Y, float Width, float Hei
 		{
 			m_Width = Width;
 			m_Height = Height; 
-			m_Y = Y;
-			m_X = X;
+
+			Vector2 firstDrawLoc;
+			firstDrawLoc.X = X;
+			firstDrawLoc.Y = Y;
+			m_DrawPositions.push_back( firstDrawLoc );
 
 			SDL_FreeSurface( mediaSurface );
 			return true;
@@ -97,10 +103,34 @@ bool Media::LoadMediaPixel( char* FilePath, int X, int Y, float Width, float Hei
 	return false;
 }
 
-void Media::SetLocation( int X, int Y )
+void Media::AddDrawPosition( Vector2 DrawTo )
 {
-	m_X = X;
-	m_Y = Y;
+	bool included = false;
+	for ( int i = 0; i < m_DrawPositions.size( ); i++ )
+	{
+		if ( m_DrawPositions[ i ] == DrawTo )
+		{
+			included = true;
+		}
+	}
+
+	if ( !included )
+	{
+		m_DrawPositions.push_back( DrawTo );
+	}
+}
+
+bool Media::RemoveDrawPosition( Vector2 RemoveFrom )
+{
+	for ( int i = 0; i < m_DrawPositions.size( ); i++ )
+	{
+		if( m_DrawPositions[ i ] == RemoveFrom && !bBackground )
+		{
+			m_DrawPositions.erase( m_DrawPositions.begin( ) + i );
+			return true;
+		}
+	}
+	return false;
 }
 
 void Media::SetHidden( bool Hidden )
@@ -114,6 +144,10 @@ void Media::Render( SDL_Renderer* GameRenderer )
 	{
 		return;
 	}
-	SDL_Rect quad = { m_X, m_Y, m_Width, m_Height };
-	SDL_RenderCopy( GameRenderer, m_MediaTexture, NULL, &quad );
+
+	for ( int i = 0; i < m_DrawPositions.size( ); i++ )
+	{
+		SDL_Rect quad = { m_DrawPositions[ i ].X, m_DrawPositions[ i ].Y, m_Width, m_Height };
+		SDL_RenderCopy( GameRenderer, m_MediaTexture, NULL, &quad );
+	}
 }
