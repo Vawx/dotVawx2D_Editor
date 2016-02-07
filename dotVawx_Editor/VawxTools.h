@@ -1,4 +1,9 @@
 #pragma once
+#include <vector>
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <fstream>
 
 struct Vector2
 {
@@ -16,3 +21,18 @@ struct Vector2
 		return( X == a.X && Y == a.Y );
 	}
 };
+
+static bool SaveToFile( const char* media )
+{
+	std::ofstream myFile;
+	myFile.open	( "../save/save_00.txt" );
+	myFile << media;
+	myFile.close( );
+
+	return true;
+}
+
+static void OpenFromFile( )
+{
+
+}

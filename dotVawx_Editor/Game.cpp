@@ -1,5 +1,5 @@
 #include "Game.h"
-
+#include <string>
 
 Game::Game( )
 {
@@ -84,7 +84,7 @@ void Game::Run( )
 
 		if ( m_Input.isKeyReleased( SDL_BUTTON_LEFT ) )
 		{			
-			m_Media->AddMedia( "../content/img/test_block.png", "grid_block", gridElementPos.X, gridElementPos.Y, 0.5f, 0.5f, 1, false, true );
+			m_Media->AddMedia( "../content/img/gray.png", "grid_block", gridElementPos.X, gridElementPos.Y, 0.5f, 0.5f, 1, false, true );
 		}
 		if( m_Input.isKeyReleased( SDL_BUTTON_RIGHT ) )
 		{
@@ -94,6 +94,29 @@ void Game::Run( )
 		if ( m_Input.isKeyReleased( SDLK_t ) )
 		{
 			m_Media->ToggleBackground( );
+		}
+
+		if ( m_Input.isKeyReleased( SDLK_F1 ) )
+		{
+			std::string media = "";
+			for ( int i = 0; i < m_Media->MediaList( ).size( ); i++ )
+			{
+				for ( int j = 0; j < m_Media->MediaList( )[ i ]->DrawPositions( ).size( ); j++ )
+				{
+					if( !m_Media->MediaList( )[ i ]->Background( ) )
+					{
+						Vector2 mediaLoc;
+						mediaLoc.X = m_Media->MediaList( )[ i ]->DrawPositions( )[ j ].X;
+						mediaLoc.Y = m_Media->MediaList( )[ i ]->DrawPositions( )[ j ].Y;
+
+						std::string mediaX = std::to_string( mediaLoc.X );
+						std::string mediaY = std::to_string( mediaLoc.Y );
+						media += mediaX + " " + mediaY + "|";
+					}
+				}
+			}
+
+			SaveToFile( media.c_str( ) );
 		}
 
 		SDL_RenderClear( m_Renderer );
@@ -108,7 +131,6 @@ void Game::Run( )
 		frameCounter++;
 		if( frameCounter >= 100 ) 
 		{ 
-			printf( "FPS: %f\n", m_FPS );
 			frameCounter = 0;
 		}
 	}

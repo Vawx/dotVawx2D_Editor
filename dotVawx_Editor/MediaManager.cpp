@@ -47,27 +47,30 @@ Media* MediaManager::AddMedia( char* FilePath, char* Name, int X, int Y, float W
 {
 	if (X >= 0 && Y >= 0)
 	{
-		for ( int i = 0; i < m_MediaList.size( ); i ++ )
+		for (int i = 0; i < m_MediaList.size(); i++)
 		{
-			if( m_MediaList[ i ]->FilePath( ) == FilePath )
+			if (m_MediaList[i]->FilePath() == FilePath)
 			{
 				Vector2 newDrawLoc;
 				newDrawLoc.X = X;
 				newDrawLoc.Y = Y;
-				m_MediaList[ i ]->AddDrawPosition( newDrawLoc );
+				m_MediaList[i]->AddDrawPosition(newDrawLoc);
 				std::sort(m_MediaList.begin(), m_MediaList.end(), SortLayerCompare());
-				return m_MediaList[ i ];
+				return m_MediaList[i];
 			}
 		}
 
-		Media* newMedia = new Media(FilePath, Name, X, Y, Width, Height, SortLayer, m_GameWindow, m_GameRenderer, Background, Scaled);
+		Media *newMedia = new Media(FilePath, Name, X, Y, Width, Height, SortLayer, m_GameWindow, m_GameRenderer, Background, Scaled);
 		if (newMedia)
 		{
 			m_MediaList.push_back(newMedia);
 		}
 		std::sort(m_MediaList.begin(), m_MediaList.end(), SortLayerCompare());
+		
 		return newMedia;
 	}
+
+	return NULL;
 }
 
 void MediaManager::RemoveMedia( char* Name )

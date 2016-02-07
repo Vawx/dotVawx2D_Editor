@@ -36,8 +36,8 @@ public:
 	/** Toggle background */
 	void ToggleBackground( );
 
-	/** List of background game media */
-	std::vector<Media*> m_BackgroundMediaList;
+	/** Media List */
+	std::vector<Media*> MediaList( ) { return m_MediaList; }
 
 private:
 
@@ -49,6 +49,9 @@ private:
 
 	/** Game renderer */
 	SDL_Renderer* m_GameRenderer;
+
+	/** List of background game media */
+	std::vector<Media*> m_BackgroundMediaList;
 
 	/** List of active game media */
 	std::vector<Media*> m_MediaList;
