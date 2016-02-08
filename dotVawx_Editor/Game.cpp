@@ -119,6 +119,12 @@ void Game::Run( )
 			SaveToFile( media.c_str( ) );
 		}
 
+		if( m_Input.isKeyReleased( SDLK_F2 ) )
+		{
+			std::vector<Vector2> file = OpenFromFile( );
+			m_Media->ReplaceMediaList( file );
+		}
+
 		SDL_RenderClear( m_Renderer );
 		m_Media->Update( );
 		m_Menu->Update( );

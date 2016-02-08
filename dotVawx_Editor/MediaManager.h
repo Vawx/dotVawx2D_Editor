@@ -36,6 +36,12 @@ public:
 	/** Toggle background */
 	void ToggleBackground( );
 
+	/** Clear media list */
+	void ClearMediaList( );
+
+	/** Repalce media list */
+	void ReplaceMediaList( std::vector<Vector2> NewList );
+
 	/** Media List */
 	std::vector<Media*> MediaList( ) { return m_MediaList; }
 

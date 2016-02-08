@@ -105,3 +105,31 @@ void MediaManager::RemoveMedia( Vector2 Position )
 		}
 	}
 }
+
+void MediaManager::ClearMediaList( )
+{
+	std::vector<Media*>::iterator i = m_MediaList.begin( );
+	while( i != m_MediaList.end( ) )
+	{
+		if ( !(*i)->Background( ) )
+		{
+			Media* to_delete = (*i);
+			delete (*i);
+
+			i = m_MediaList.erase( i );
+		}
+		else
+		{
+			++i;
+		}
+	}
+}
+
+void MediaManager::ReplaceMediaList( std::vector<Vector2> NewList )
+{
+	ClearMediaList( );
+	for ( int i = 0; i < NewList.size( ); i++ )
+	{
+		AddMedia( "../content/img/gray.png", "gray", NewList[ i ].X, NewList[ i ].Y, 0.5f, 0.5f, 1, false, true );
+	}
+}
