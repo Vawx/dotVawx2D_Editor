@@ -18,7 +18,9 @@ Keys
 
 `Right Mouse Button Release` Delete texture at position of mouse.
 
-`no ability to export level file, yet`
+`F1` save current level to save_00.txt
+ 
+`F2` open current level from save_00.txt
 
 ## License
 Copyright (c) <2016> Kyle Langley
