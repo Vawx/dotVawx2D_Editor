@@ -30,16 +30,12 @@ struct Vector2
 static bool SaveToFile( const char* media )
 {
 	std::ofstream myFile;
-	myFile.open	( "../save/save_00.txt" );
+	myFile.open( "../save/save_00.txt" );
 	myFile << media;
 	myFile.close( );
 
 	return true;
 }
-
-const int MAX_CHARS_PER_LINE = 512;
-const int MAX_TOKENS_PER_LINE = 1024;
-const char* const ELIMINATOR = "|";
 
 static std::vector<Vector2> OpenFromFile( )
 {
